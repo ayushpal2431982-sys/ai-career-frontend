@@ -10,7 +10,7 @@ export const server = "http://localhost:5000";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AppProvider>
-      <GoogleOAuthProvider clientId="934206762423-2tts2omf2749nuq2sb3jd0rbil05tr7m.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="934086535136-0dv1jhdk7b7jole2u8msaj1h406a0oo1.apps.googleusercontent.com">
         <App />
       </GoogleOAuthProvider>
     </AppProvider>

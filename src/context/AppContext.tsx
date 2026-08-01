@@ -17,10 +17,17 @@ export const AppProvider = ({ children }: AppProps)=>{
     const [loading, setLoading] = useState(true)
 
     async function fetchUser() {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
         try {
             const {data} = await axios.get(`${server}/api/user/me`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 

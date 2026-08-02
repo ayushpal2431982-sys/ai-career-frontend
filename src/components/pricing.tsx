@@ -54,25 +54,28 @@ function PlanCTA({
 }) {
   const { isAuth, user, setUser } = useAppData();
   const isPro =
-    isAuth && user?.subscription && new Date() < new Date(user.subscription);
+  isAuth && user?.subscription && new Date() < new Date(user.subscription);
+const isThisPlanActive =
+  isPro && Number(user?.subscriptionDuration) === Number(plan.duration);
 
-  if (isAuth) {
-    if (plan.name === "Free") {
-      return (
-        <p className="mt-auto text-center text-xs text-white/30 py-3">
-          {isPro ? "Your previous plan" : "✔️ Currently active"}
-        </p>
-      );
-    }
-
-    if (isPro) {
-      return (
-        <p className="mt-auto text-center text-xs text-white/30 py-3">
-          ✔️ Already subscribed
-        </p>
-      );
-    }
+if (isAuth) {
+  if (plan.name === "Free") {
+    return (
+      <p className="mt-auto text-center text-xs text-white/30 py-3">
+        {isPro ? "Your previous plan" : "✔️ Currently active"}
+      </p>
+    );
   }
+
+  if (isThisPlanActive) {
+    return (
+      <p className="mt-auto text-center text-xs text-white/30 py-3">
+        ✔️ Already subscribed
+      </p>
+    );
+  }
+}
+  
 
   const navigate = useNavigate();
 
@@ -103,12 +106,12 @@ function PlanCTA({
       );
 
       const options = {
-        key: "rzp_test_TKPHIsoruqCQMp", // Must match the key used on the backend
-        amount: order.amount, // Amount in currency subunits, comes from the order object
+        key: "rzp_test_TKPHIsoruqCQMp",
+        amount: order.amount,
         currency: "INR",
-        name: "Career AI", // your business name
+        name: "Career AI",
         description: "Find job easily",
-        order_id: order.id, // The `id` obtained from the checkout order response
+        order_id: order.id,
 
         handler: async function (response: any) {
           const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
@@ -131,7 +134,6 @@ function PlanCTA({
 
             toast.success(data.message);
             setUser(data.updatedUser);
-            navigate("/account");
           } catch (error: any) {
             toast.error(error.response?.data?.message || "Payment verification failed.");
           } finally {

@@ -3,8 +3,80 @@ export interface User {
   name: string;
   email: string;
   image: string;
-  subscription: Date | null;
+  subscription: string | null;
+  subscriptionDuration: number | null;
   freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
+}
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  image: string;
+  subscription: string | null;
+  subscriptionDuration: number | null;
+  freeRequestsUsed: number;
+  // ...
 }
 
 export interface AppContextType {

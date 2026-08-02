@@ -90,6 +90,7 @@ export const plans = [
     period: "",
     badge: null,
     desc: "Try before you commit",
+    duration: null,  
     features: [
       "3 AI requests total",
       "ATS score report",
@@ -106,6 +107,7 @@ export const plans = [
     period: "/ month",
     badge: "Most Flexible",
     desc: "Full access, cancel anytime",
+    duration: 1,
     features: [
       "Unlimited resume analyses",
       "Full ATS + strength/weakness report",
@@ -124,6 +126,7 @@ export const plans = [
     period: "/ 6 months",
     badge: "Best Value",
     desc: "Save 17% vs monthly",
+    duration: 6,
     features: [
       "Everything in Pro Monthly",
       "Early access to new features",

@@ -1,68 +1,87 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 import toast, { Toaster } from "react-hot-toast";
 import type { AppContextType, User } from "../types";
 import { server } from "../main";
 
-
-const AppContext = createContext<AppContextType | undefined>(undefined)
+const AppContext = createContext<AppContextType | undefined>(undefined);
 
 interface AppProps {
-    children: ReactNode
+  children: ReactNode;
 }
 
-export const AppProvider = ({ children }: AppProps)=>{
-    const [user, setUser] = useState<User | null>(null)
-    const [isAuth, setIsAuth] = useState(false)
-    const [loading, setLoading] = useState(true)
+export const AppProvider = ({ children }: AppProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuth, setIsAuth] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-    async function fetchUser() {
-        const token = localStorage.getItem("token");
+  async function fetchUser() {
+    const token = localStorage.getItem("token");
 
-        if (!token) {
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const {data} = await axios.get(`${server}/api/user/me`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            setUser(data);
-            setIsAuth(true);
-
-        } catch (error) {
-            console.log(error);
-        } finally {
-            setLoading(false);
-        }
+    if (!token) {
+      setLoading(false);
+      return;
     }
 
-    const LogoutUser = () => {
-        localStorage.setItem("token", "");
-        setUser(null);
-        setIsAuth(false);
-        toast.success("Logged out successfully");
-    };
+    try {
+      const { data } = await axios.get(`${server}/api/user/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
+      setUser(data);
+      setIsAuth(true);
+    } catch (error) {
+      console.log(error);
+      localStorage.removeItem("token"); // add this
+      setUser(null);
+      setIsAuth(false);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    return <AppContext.Provider value={{ user, setUser, isAuth, setIsAuth, setLoading, LogoutUser, loading}}>
-        {children}
-        <Toaster/>
+  const LogoutUser = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    setIsAuth(false);
+    toast.success("Logged out successfully");
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return (
+    <AppContext.Provider
+      value={{
+        user,
+        setUser,
+        isAuth,
+        setIsAuth,
+        setLoading,
+        LogoutUser,
+        loading,
+      }}
+    >
+      {children}
+      <Toaster />
     </AppContext.Provider>
+  );
 };
 
-export const useAppData = () : AppContextType => {
-    const context  = useContext(AppContext);
+export const useAppData = (): AppContextType => {
+  const context = useContext(AppContext);
 
-    if(!context) {
-        throw new Error("useAppData must be used within a AppProvider");
-    }
-    return context;
+  if (!context) {
+    throw new Error("useAppData must be used within a AppProvider");
+  }
+  return context;
 };
